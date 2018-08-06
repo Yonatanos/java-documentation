@@ -1,0 +1,465 @@
+<!DOCTYPE HTML>
+<html lang=("en")>
+  <head>
+  	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tutorial demo page">
+    <link rel="stylesheet" type="text/css" href="./css/java-tutorial.css">
+
+  	<title>Java Fake Tutorial</title>
+  </head>
+  <body>
+    <main id="main-doc">
+
+      <h2>!Desclaimer: This is NOT a real tutorial!</h2>
+      <section id="1_Variables" class="main-section"><header>1 Variables</header><p>An object stores its state in fields.</p>
+        <code>int cadence = 0;
+          int speed = 0;
+          int gear = 1;
+        </code>
+        <p>The What Is an Object? discussion introduced you to fields, but you probably have still a few questions, such as: What are the rules and conventions for naming a field? Besides int, what other data types are there? Do fields have to be initialized when they are declared? Are fields assigned a default value if they are not explicitly initialized? We'll explore the answers to such questions in this lesson, but before we do, there are a few technical distinctions you must first become aware of. In the Java programming language, the terms "field" and "variable" are both used; this is a common source of confusion among new developers since both often seems to indicate the same thing.<br>
+          The Java programming language defines the following kinds of variables:<br>
+        <ul>
+          <li><strong>Instance Variables (Non-Static Fields)</strong> Technically speaking, objects store their individual states in "non-static fields", that is, fields declared without the static keyword. Non-static fields are also known as instance variables because their values are unique to each instance of a class (to each object, in other words); the currentSpeed of one bicycle is independent from the currentSpeed of another.</li>
+          <li><strong>Class Variables (Static Fields)</strong> A class variable is any field declared with the static modifier; this tells the compiler that there is exactly one copy of this variable in existence, regardless of how many times the class has been instantiated. A field defining the number of gears for a particular kind of bicycle could be marked as static since conceptually the same number of gears will apply to all instances. The code <code>static int numGears = 6;</code>would create such a static field. Additionally, the keyword final could be added to indicate that the number of gears will never change.</li>
+          <li><strong>Local Variables</strong> Similar to how an object stores its state in fields, a method will often store its temporary state in local variables. The syntax for declaring a local variable is similar to declaring a field (for example, int count = 0;). There is no special keyword designating a variable as local; that determination comes entirely from the location in which the variable is declared — which is between the opening and closing braces of a method. As such, local variables are only visible to the methods in which they are declared; they are not accessible from the rest of the class.</li>
+          <li><strong>Parameters</strong> You've already seen examples of parameters in the Bicycle class. Recall that the signature for the main method is public static void main(String[] args). Here, the args variable is the parameter to this method. The important thing to remember is that parameters are always classified as "variables" not "fields". This applies to other parameter-accepting constructs as well (such as constructors and exception handlers).</li></ul>
+          <p>Having said that, the remainder of this tutorial uses the following general guidelines when discussing fields and variables. If we are talking about "fields in general" (excluding local variables and parameters), we may simply say "fields". If the discussion applies to "all of the above", we may simply say "variables". If the context calls for a distinction, we will use specific terms (static field, local variables, etc.) as appropriate. You may also occasionally see the term "member" used as well. A type's fields, methods, and nested types are collectively called its members.</p>
+          <h3>Naming</h3>
+          <p>Every programming language has its own set of rules and conventions for the kinds of names that you're allowed to use, and the Java programming language is no different. The rules and conventions for naming your variables can be summarized as follows:</p>
+          <ul>
+          <li>Variable names are case-sensitive. A variable's name can be any legal identifier — an unlimited-length sequence of Unicode letters and digits, beginning with a letter, the dollar sign "$", or the underscore character "_". The convention, however, is to always begin your variable names with a letter, not "$" or "_". Additionally, the dollar sign character, by convention, is never used at all. You may find some situations where auto-generated names will contain the dollar sign, but your variable names should always avoid using it. A similar convention exists for the underscore character; while it's technically legal to begin your variable's name with "_", this practice is discouraged. White space is not permitted.</li>
+          <li>Subsequent characters may be letters, digits, dollar signs, or underscore characters. Conventions (and common sense) apply to this rule as well. When choosing a name for your variables, use full words instead of cryptic abbreviations. Doing so will make your code easier to read and understand. In many cases it will also make your code self-documenting; fields named cadence, speed, and gear, for example, are much more intuitive than abbreviated versions, such as s, c, and g. Also keep in mind that the name you choose must not be a keyword or reserved word.</li>
+          <li>If the name you choose consists of only one word, spell that word in all lowercase letters. If it consists of more than one word, capitalize the first letter of each subsequent word. The names gearRatio and currentGear are prime examples of this convention. If your variable stores a constant value, such as static final int NUM_GEARS = 6, the convention changes slightly, capitalizing every letter and separating subsequent words with the underscore character. By convention, the underscore character is never used elsewhere.</li>
+        </section>
+      <section id="2_Primitive_Data_Types" class="main-section">
+        <header>2 Primitive Data Types</header>
+        <p>The Java programming language is statically-typed, which means that all variables must first be declared before they can be used. This involves stating the variable's type and name, as you've already seen:<p>
+        <code>int gear = 1;</code>
+        <p>Doing so tells your program that a field named "gear" exists, holds numerical data, and has an initial value of "1". A variable's data type determines the values it may contain, plus the operations that may be performed on it. In addition to int, the Java programming language supports seven other primitive data types. A primitive type is predefined by the language and is named by a reserved keyword. Primitive values do not share state with other primitive values. The eight primitive data types supported by the Java programming language are:</p>
+
+        <ul><li><strong>byte:</strong> The byte data type is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive). The byte data type can be useful for saving memory in large arrays, where the memory savings actually matters. They can also be used in place of int where their limits help to clarify your code; the fact that a variable's range is limited can serve as a form of documentation.</li>
+
+          <li><strong>short:</strong> The short data type is a 16-bit signed two's complement integer. It has a minimum value of -32,768 and a maximum value of 32,767 (inclusive). As with byte, the same guidelines apply: you can use a short to save memory in large arrays, in situations where the memory savings actually matters.</li>
+
+          <li><strong>int:</strong> By default, the int data type is a 32-bit signed two's complement integer, which has a minimum value of -231 and a maximum value of 231-1. In Java SE 8 and later, you can use the int data type to represent an unsigned 32-bit integer, which has a minimum value of 0 and a maximum value of 232-1. Use the Integer class to use int data type as an unsigned integer. See the section The Number Classes for more information. Static methods like compareUnsigned, divideUnsigned etc have been added to the Integer class to support the arithmetic operations for unsigned integers.</li>
+
+          <li><strong>long:</strong> The long data type is a 64-bit two's complement integer. The signed long has a minimum value of -263 and a maximum value of 263-1. In Java SE 8 and later, you can use the long data type to represent an unsigned 64-bit long, which has a minimum value of 0 and a maximum value of 264-1. Use this data type when you need a range of values wider than those provided by int. The Long class also contains methods like compareUnsigned, divideUnsigned etc to support arithmetic operations for unsigned long.</li>
+
+          <li><strong>float:</strong> The float data type is a single-precision 32-bit IEEE 754 floating point. Its range of values is beyond the scope of this discussion, but is specified in the Floating-Point Types, Formats, and Values section of the Java Language Specification. As with the recommendations for byte and short, use a float (instead of double) if you need to save memory in large arrays of floating point numbers. This data type should never be used for precise values, such as currency. For that, you will need to use the java.math.BigDecimal class instead. Numbers and Strings covers BigDecimal and other useful classes provided by the Java platform.</li>
+
+          <li><strong>double:</strong> The double data type is a double-precision 64-bit IEEE 754 floating point. Its range of values is beyond the scope of this discussion, but is specified in the Floating-Point Types, Formats, and Values section of the Java Language Specification. For decimal values, this data type is generally the default choice. As mentioned above, this data type should never be used for precise values, such as currency.</li>
+
+          <li><strong>boolean:</strong> The boolean data type has only two possible values: true and false. Use this data type for simple flags that track true/false conditions. This data type represents one bit of information, but its "size" isn't something that's precisely defined.</li>
+
+          <li><strong>char:</strong> The char data type is a single 16-bit Unicode character. It has a minimum value of '\u0000' (or 0) and a maximum value of '\uffff' (or 65,535 inclusive).</li>
+          <p>In addition to the eight primitive data types listed above, the Java programming language also provides special support for character strings via the java.lang.String class. Enclosing your character string within double quotes will automatically create a new String object; for example, String s = "this is a string";. String objects are immutable, which means that once created, their values cannot be changed. The String class is not technically a primitive data type, but considering the special support given to it by the language, you'll probably tend to think of it as such. You'll learn more about the String class in Simple Data Objects</p>
+
+          <h3>Default Values</h3>
+          <p>It's not always necessary to assign a value when a field is declared. Fields that are declared but not initialized will be set to a reasonable default by the compiler. Generally speaking, this default will be zero or null, depending on the data type. Relying on such default values, however, is generally considered bad programming style.</p>
+
+          <p>The following chart summarizes the default values for the above data types.</p>
+          <table>
+            <tr>
+              <th>Data Type</th>
+              <th>Default Value (for fields)</th>
+            </tr>
+            <tr>
+              <td>byte</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>short</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>int</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>long</td>
+               <td>0L</td>
+            </tr>
+            <tr>
+              <td>float</td>
+              <td>0.0f</td>
+            </tr>
+              <tr>
+                <td>double</td>
+                <td>0.0d</td>
+            </tr>
+            <tr>
+              <td>char</td>
+              <td>'\u0000'</td>
+            </tr>
+            <tr>
+              <td>String (or any object)</td>
+              <td>null</td>
+            </tr>
+            <tr>
+              <td>boolean</td>
+              <td>null</td>
+            </tr>
+          </table>
+          <p>Local variables are slightly different; the compiler never assigns a default value to an uninitialized local variable. If you cannot initialize your local variable where it is declared, make sure to assign it a value before you attempt to use it. Accessing an uninitialized local variable will result in a compile-time error.<p>
+          <h3>Literals</h3>
+          <p>You may have noticed that the new keyword isn't used when initializing a variable of a primitive type. Primitive types are special data types built into the language; they are not objects created from a class. A literal is the source code representation of a fixed value; literals are represented directly in your code without requiring computation. As shown below, it's possible to assign a literal to a variable of a primitive type:</p>
+          <code>boolean result = true;
+    char capitalC = 'C';
+    byte b = 100;
+    short s = 10000;
+    int i = 100000;</code>
+          <h3>Integer Literals</h3>
+          <p>An integer literal is of type long if it ends with the letter L or l; otherwise it is of type int. It is recommended that you use the upper case letter L because the lower case letter l is hard to distinguish from the digit 1.</p>
+          <p>Values of the integral types byte, short, int, and long can be created from int literals. Values of type long that exceed the range of int can be created from long literals. Integer literals can be expressed by these number systems:</p>
+          <ul>
+            <li><strong>Decimal:</strong> Base 10, whose digits consists of the numbers 0 through 9; this is the number system you use every day</li>
+            <li><strong>Hexadecimal:</strong> Base 16, whose digits consist of the numbers 0 through 9 and the letters A through F
+    Binary: Base 2, whose digits consists of the numbers 0 and 1 (you can create binary literals in Java SE 7 and later)</li>
+          </ul>
+          <p>For general-purpose programming, the decimal system is likely to be the only number system you'll ever use. However, if you need to use another number system, the following example shows the correct syntax. The prefix 0x indicates hexadecimal and 0b indicates binary:</p>
+          <code>// The number 26, in decimal
+    int decVal = 26;
+    //  The number 26, in hexadecimal
+    int hexVal = 0x1a;
+    // The number 26, in binary
+    int binVal = 0b11010;</code>
+          <h3>Floating-Point Literals</h3>
+          <p>A floating-point literal is of type float if it ends with the letter F or f; otherwise its type is double and it can optionally end with the letter D or d.</p>
+          <p>The floating point types (float and double) can also be expressed using E or e (for scientific notation), F or f (32-bit float literal) and D or d (64-bit double literal; this is the default and by convention is omitted).</p>
+          <code>double d1 = 123.4;
+    // same value as d1, but in scientific notation
+    double d2 = 1.234e2;
+    float f1  = 123.4f;</code>
+          <h3>Character and String Literals</h3>
+          <p>Literals of types char and String may contain any Unicode (UTF-16) characters. If your editor and file system allow it, you can use such characters directly in your code. If not, you can use a "Unicode escape" such as '\u0108' (capital C with circumflex), or "S\u00ED Se\u00F1or" (Sí Señor in Spanish). Always use 'single quotes' for char literals and "double quotes" for String literals. Unicode escape sequences may be used elsewhere in a program (such as in field names, for example), not just in char or String literals.</p>
+          <p>The Java programming language also supports a few special escape sequences for char and String literals: \b (backspace), \t (tab), \n (line feed), \f (form feed), \r (carriage return), \" (double quote), \' (single quote), and \\ (backslash).</p>
+          <p>There's also a special null literal that can be used as a value for any reference type. null may be assigned to any variable, except variables of primitive types. There's little you can do with a null value beyond testing for its presence. Therefore, null is often used in programs as a marker to indicate that some object is unavailable.</p>
+          <p>Finally, there's also a special kind of literal called a class literal, formed by taking a type name and appending ".class"; for example, String.class. This refers to the object (of type Class) that represents the type itself.</p>
+
+          <h3>Using Underscore Characters in Numeric Literals</h3>
+          <p>In Java SE 7 and later, any number of underscore characters (_) can appear anywhere between digits in a numerical literal. This feature enables you, for example. to separate groups of digits in numeric literals, which can improve the readability of your code.</p>
+          <p>For instance, if your code contains numbers with many digits, you can use an underscore character to separate digits in groups of three, similar to how you would use a punctuation mark like a comma, or a space, as a separator.</p>
+          <p>The following example shows other ways you can use the underscore in numeric literals:</p>
+          <code>long creditCardNumber = 1234_5678_9012_3456L;
+    long socialSecurityNumber = 999_99_9999L;
+    float pi =  3.14_15F;
+    long hexBytes = 0xFF_EC_DE_5E;
+    long hexWords = 0xCAFE_BABE;
+    long maxLong = 0x7fff_ffff_ffff_ffffL;
+    byte nybbles = 0b0010_0101;
+    long bytes = 0b11010010_01101001_10010100_10010010;</code>
+          <p>You can place underscores only between digits; you cannot place underscores in the following places:</p>
+          <ul>
+            <li>At the beginning or end of a number</li>
+            <li>Adjacent to a decimal point in a floating point literal</li>
+            <li>Prior to an F or L suffix</li>
+            <li>In positions where a string of digits is expected</li>
+            <p>The following examples demonstrate valid and invalid underscore placements (which are highlighted) in numeric literals:</p>
+            <code>// Invalid: cannot put underscores
+    // adjacent to a decimal point
+    float pi1 = 3_.1415F;
+    // Invalid: cannot put underscores
+    // adjacent to a decimal point
+    float pi2 = 3._1415F;
+    // Invalid: cannot put underscores
+    // prior to an L suffix
+    long socialSecurityNumber1 = 999_99_9999_L;
+
+    // OK (decimal literal)
+    int x1 = 5_2;
+    // Invalid: cannot put underscores
+    // At the end of a literal
+    int x2 = 52_;
+    // OK (decimal literal)
+    int x3 = 5_______2;
+
+    // Invalid: cannot put underscores
+    // in the 0x radix prefix
+    int x4 = 0_x52;
+    // Invalid: cannot put underscores
+    // at the beginning of a number
+    int x5 = 0x_52;
+    // OK (hexadecimal literal)
+    int x6 = 0x5_2;
+    // Invalid: cannot put underscores
+    // at the end of a number
+    int x7 = 0x52_;</code>
+            </section>
+      <section id="3_Arrays" class="main-section">
+        <header>3 Arrays</header>
+        <p>An array is a container object that holds a fixed number of values of a single type. The length of an array is established when the array is created. After creation, its length is fixed. This section discusses arrays in greater detail.</p>
+        <img src="https://docs.oracle.com/javase/tutorial/figures/java/objects-tenElementArray.gif" alt="Array illustration">
+        <p>Illustration of an array as 10 boxes numbered 0 through 9; an index of 0 indicates the first element in the array
+          An array of 10 elements.</p>
+        <p>Each item in an array is called an element, and each element is accessed by its numerical index. As shown in the preceding illustration, numbering begins with 0. The 9th element, for example, would therefore be accessed at index 8.</p>
+        <p>The following program, ArrayDemo, creates an array of integers, puts some values in the array, and prints each value to standard output.</p>
+        <code>class ArrayDemo {
+        public static void main(String[] args) {
+            // declares an array of integers
+            int[] anArray;
+
+            // allocates memory for 10 integers
+            anArray = new int[10];
+
+            // initialize first element
+            anArray[0] = 100;
+            // initialize second element
+            anArray[1] = 200;
+            // and so forth
+            anArray[2] = 300;
+            anArray[3] = 400;
+            anArray[4] = 500;
+            anArray[5] = 600;
+            anArray[6] = 700;
+            anArray[7] = 800;
+            anArray[8] = 900;
+            anArray[9] = 1000;
+
+            System.out.println("Element at index 0: "
+                               + anArray[0]);
+            System.out.println("Element at index 1: "
+                               + anArray[1]);
+            System.out.println("Element at index 2: "
+                               + anArray[2]);
+            System.out.println("Element at index 3: "
+                               + anArray[3]);
+            System.out.println("Element at index 4: "
+                               + anArray[4]);
+            System.out.println("Element at index 5: "
+                               + anArray[5]);
+            System.out.println("Element at index 6: "
+                               + anArray[6]);
+            System.out.println("Element at index 7: "
+                               + anArray[7]);
+            System.out.println("Element at index 8: "
+                               + anArray[8]);
+            System.out.println("Element at index 9: "
+                               + anArray[9]);
+        }
+    }</code>
+        <p>The output from this program is:</p>
+        <code>Element at index 0: 100
+    Element at index 1: 200
+    Element at index 2: 300
+    Element at index 3: 400
+    Element at index 4: 500
+    Element at index 5: 600
+    Element at index 6: 700
+    Element at index 7: 800
+    Element at index 8: 900
+    Element at index 9: 1000</code>
+        <p>In a real-world programming situation, you would probably use one of the supported looping constructs to iterate through each element of the array, rather than write each line individually as in the preceding example. However, the example clearly illustrates the array syntax. You will learn about the various looping constructs (for, while, and do-while) in the Control Flow section.</p>
+        <h3>Declaring a Variable to Refer to an Array</h3>
+        <p>The preceding program declares an array (named anArray) with the following line of code:</p>
+        <code>// declares an array of integers
+          int[] anArray;</code>
+        <p>Like declarations for variables of other types, an array declaration has two components: the array's type and the array's name. An array's type is written as type[], where type is the data type of the contained elements; the brackets are special symbols indicating that this variable holds an array. The size of the array is not part of its type (which is why the brackets are empty). An array's name can be anything you want, provided that it follows the rules and conventions as previously discussed in the naming section. As with variables of other types, the declaration does not actually create an array; it simply tells the compiler that this variable will hold an array of the specified type.</p>
+        <p>Similarly, you can declare arrays of other types:</p>
+        <code>byte[] anArrayOfBytes;
+    short[] anArrayOfShorts;
+    long[] anArrayOfLongs;
+    float[] anArrayOfFloats;
+    double[] anArrayOfDoubles;
+    boolean[] anArrayOfBooleans;
+    char[] anArrayOfChars;
+    String[] anArrayOfStrings;</code>
+        <p>You can also place the brackets after the array's name:</p>
+        <code>// this form is discouraged
+    float anArrayOfFloats[];</code>
+        <p>However, convention discourages this form; the brackets identify the array type and should appear with the type designation.</p>
+          <h3>Creating, Initializing, and Accessing an Array</h3>
+          <p>One way to create an array is with the new operator. The next statement in the ArrayDemo program allocates an array with enough memory for 10 integer elements and assigns the array to the anArray variable.</p>
+        <code>// create an array of integers
+    anArray = new int[10];</code>
+        <p>If this statement is missing, then the compiler prints an error like the following, and compilation fails:</p>
+          <code>ArrayDemo.java:4: Variable anArray may not have been initialized.</code>
+          <p>The next few lines assign values to each element of the array:</p>
+        <code>anArray[0] = 100; // initialize first element
+    anArray[1] = 200; // initialize second element
+    anArray[2] = 300; // and so forth</code>
+        <p>Each array element is accessed by its numerical index:</p>
+        <code>System.out.println("Element 1 at index 0: " + anArray[0]);
+    System.out.println("Element 2 at index 1: " + anArray[1]);</code>
+        <p>Alternatively, you can use the shortcut syntax to create and initialize an array:</p>
+        <code>int[] anArray = {
+        100, 200, 300,
+        400, 500, 600,
+        700, 800, 900, 1000
+    };</code>
+        <p>Here the length of the array is determined by the number of values provided between braces and separated by commas.</p>
+        <p>You can also declare an array of arrays (also known as a multidimensional array) by using two or more sets of brackets, such as String[][] names. Each element, therefore, must be accessed by a corresponding number of index values.</p>
+        <p>In the Java programming language, a multidimensional array is an array whose components are themselves arrays. This is unlike arrays in C or Fortran. A consequence of this is that the rows are allowed to vary in length, as shown in the following MultiDimArrayDemo program:</p>
+        <code>class MultiDimArrayDemo {
+        public static void main(String[] args) {
+            String[][] names = {
+                {"Mr. ", "Mrs. ", "Ms. "},
+                {"Smith", "Jones"}
+            };
+            // Mr. Smith
+            System.out.println(names[0][0] + names[1][0]);
+            // Ms. Jones
+            System.out.println(names[0][2] + names[1][1]);
+        }
+    }</code>
+        <p>The output from this program is:</p>
+        <code>Mr. Smith
+    Ms. Jones</code>
+        <p>
+    Finally, you can use the built-in length property to determine the size of any array. The following code prints the array's size to standard output:</p>
+        <code>System.out.println(anArray.length);</code>
+        <h3>Copying Arrays</h3>
+        <p>The System class has an arraycopy method that you can use to efficiently copy data from one array into another:</p>
+        <code>public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)</code>
+        <p>The two Object arguments specify the array to copy from and the array to copy to. The three int arguments specify the starting position in the source array, the starting position in the destination array, and the number of array elements to copy.</p>
+        <p>The following program, ArrayCopyDemo, declares an array of char elements, spelling the word "decaffeinated." It uses the System.arraycopy method to copy a subsequence of array components into a second array:</p>
+        <code>class ArrayCopyDemo {
+        public static void main(String[] args) {
+            char[] copyFrom = { 'd', 'e', 'c', 'a', 'f', 'f', 'e',
+    			    'i', 'n', 'a', 't', 'e', 'd' };
+            char[] copyTo = new char[7];
+
+            System.arraycopy(copyFrom, 2, copyTo, 0, 7);
+            System.out.println(new String(copyTo));
+        }
+    }</code>
+        <p>The output from this program is:</p>
+        <code>caffein</code>
+        <h3>Array Manipulations</h3>
+        <p>Arrays are a powerful and useful concept used in programming. Java SE provides methods to perform some of the most common manipulations related to arrays. For instance, the ArrayCopyDemo example uses the arraycopy method of the System class instead of manually iterating through the elements of the source array and placing each one into the destination array. This is performed behind the scenes, enabling the developer to use just one line of code to call the method.</p>
+        <p>For your convenience, Java SE provides several methods for performing array manipulations (common tasks, such as copying, sorting and searching arrays) in the java.util.Arrays class. For instance, the previous example can be modified to use the copyOfRange method of the java.util.Arrays class, as you can see in the ArrayCopyOfDemo example. The difference is that using the copyOfRange method does not require you to create the destination array before calling the method, because the destination array is returned by the method:</p>
+        <code>class ArrayCopyOfDemo {
+        public static void main(String[] args) {
+
+            char[] copyFrom = {'d', 'e', 'c', 'a', 'f', 'f', 'e',
+                'i', 'n', 'a', 't', 'e', 'd'};
+
+            char[] copyTo = java.util.Arrays.copyOfRange(copyFrom, 2, 9);
+
+            System.out.println(new String(copyTo));
+        }
+    }</code>
+          <p>As you can see, the output from this program is the same (caffein), although it requires fewer lines of code. Note that the second parameter of the copyOfRange method is the initial index of the range to be copied, inclusively, while the third parameter is the final index of the range to be copied, exclusively. In this example, the range to be copied does not include the array element at index 9 (which contains the character a).</p>
+          <p>Some other useful operations provided by methods in the java.util.Arrays class, are:</p>
+          <ul>
+            <li>Searching an array for a specific value to get the index at which it is placed (the binarySearch method).</li>
+            <li>Comparing two arrays to determine if they are equal or not (the equals method).</li>
+            <li>Filling an array to place a specific value at each index (the fill method).</li>
+            <li>Sorting an array into ascending order. This can be done either sequentially, using the sort method, or concurrently, using the parallelSort method introduced in Java SE 8. Parallel sorting of large arrays on multiprocessor systems is faster than sequential array sorting.</li>
+          </ul>
+          </section>
+           <section id="4_Classes" class="main-section">
+        <header>4 Classes</header>
+        <p>The introduction to object-oriented concepts in the lesson titled Object-oriented Programming Concepts used a bicycle class as an example, with racing bikes, mountain bikes, and tandem bikes as subclasses. Here is sample code for a possible implementation of a Bicycle class, to give you an overview of a class declaration. Subsequent sections of this lesson will back up and explain class declarations step by step. For the moment, don't concern yourself with the details.</p>
+        <code>public class Bicycle {
+        // the Bicycle class has three fields
+        public int cadence;
+        public int gear;
+        public int speed;
+
+        // the Bicycle class has
+        // one constructor
+        public Bicycle(int startCadence, int startSpeed, int startGear) {
+            gear = startGear;
+            cadence = startCadence;
+            speed = startSpeed;
+        }
+
+        // the Bicycle class has
+        // four methods
+        public void setCadence(int newValue) {
+            cadence = newValue;
+        }
+
+        public void setGear(int newValue) {
+            gear = newValue;
+        }
+
+        public void applyBrake(int decrement) {
+            speed -= decrement;
+        }
+
+        public void speedUp(int increment) {
+            speed += increment;
+        }
+    }</code>
+        <p>A class declaration for a MountainBike class that is a subclass of Bicycle might look like this:</p>
+
+    <code>public class MountainBike extends Bicycle {
+
+        // the MountainBike subclass has
+        // one field
+        public int seatHeight;
+
+        // the MountainBike subclass has
+        // one constructor
+        public MountainBike(int startHeight, int startCadence, int startSpeed, int startGear) {
+            super(startCadence, startSpeed, startGear);
+            seatHeight = startHeight;
+        }
+
+        // the MountainBike subclass has
+        // one method
+        public void setHeight(int newValue) {
+            seatHeight = newValue;
+        }
+    }</code>
+
+    <p>MountainBike inherits all the fields and methods of Bicycle and adds the field seatHeight and a method to set it (mountain bikes have seats that can be moved up and down as the terrain demands).</p>
+      </section>
+     <section id="5_Objects" class="main-section"><header>5 Objects</header>
+       <p>A typical Java program creates many objects, which as you know, interact by invoking methods. Through these object interactions, a program can carry out various tasks, such as implementing a GUI, running an animation, or sending and receiving information over a network. Once an object has completed the work for which it was created, its resources are recycled for use by other objects.
+
+    Here's a small program, called CreateObjectDemo, that creates three objects: one Point object and two Rectangle objects. You will need all three source files to compile this program.</p>
+    <code>public class CreateObjectDemo {
+
+        public static void main(String[] args) {
+
+            // Declare and create a point object and two rectangle objects.
+            Point originOne = new Point(23, 94);
+            Rectangle rectOne = new Rectangle(originOne, 100, 200);
+            Rectangle rectTwo = new Rectangle(50, 100);
+
+            // display rectOne's width, height, and area
+            System.out.println("Width of rectOne: " + rectOne.width);
+            System.out.println("Height of rectOne: " + rectOne.height);
+            System.out.println("Area of rectOne: " + rectOne.getArea());
+
+            // set rectTwo's position
+            rectTwo.origin = originOne;
+
+            // display rectTwo's position
+            System.out.println("X Position of rectTwo: " + rectTwo.origin.x);
+            System.out.println("Y Position of rectTwo: " + rectTwo.origin.y);
+
+            // move rectTwo and display its new position
+            rectTwo.move(40, 72);
+            System.out.println("X Position of rectTwo: " + rectTwo.origin.x);
+            System.out.println("Y Position of rectTwo: " + rectTwo.origin.y);
+        }
+    }</code>
+    <p>This program creates, manipulates, and displays information about various objects. Here's the output:</p>
+
+    <code>Width of rectOne: 100
+    Height of rectOne: 200
+    Area of rectOne: 20000
+    X Position of rectTwo: 23
+    Y Position of rectTwo: 94
+    X Position of rectTwo: 40
+    Y Position of rectTwo: 72</code>
+    <p>The following three sections use the above example to describe the life cycle of an object within a program. From them, you will learn how to write code that creates and uses objects in your own programs. You will also learn how the system cleans up after an object when its life has ended.</p>
+      </section>
+    </main>
+
+    <nav id="navbar">
+      <header class=nav-header>Java Tutorial</header>
+      <p class="comment">(taken from Oracle)</p>
+      <ul>
+        <li><a class = "nav-link" href="#1_Variables">1 Variables</a></li>
+        <li><a class = "nav-link" href="#2_Primitive_Data_Types">2 Primitive Data Types</a></li>
+        <li><a class = "nav-link" href="#3_Arrays">3 Arrays</a></li>
+        <li><a class = "nav-link" href="#4_Classes">4 Classes</a></li>
+        <li><a class = "nav-link" href="#5_Objects">5 Objects</a></li>
+      </ul>
+    </nav>
+  </body>
